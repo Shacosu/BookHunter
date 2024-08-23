@@ -1,113 +1,182 @@
-import Image from "next/image";
+import Footer from "@/components/layout/Footer"
+import { Button } from "@/components/ui/button"
+import { CardContent, Card } from "@/components/ui/card"
+import { Bell, DollarSign, Search, Check } from "lucide-react"
+import Link from "next/link"
 
-export default function Home() {
+export default function LandingPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+    <div className="flex flex-col min-h-screen">
+      <main className="flex-1">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-[url('https://thomasmore.qc.ca/wp-content/uploads/2016/10/research-banner.jpg')] bg-no-repeat bg-cover bg-center backdrop-blur-sm">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h1 className="text-3xl  font-bold tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl/none bg-neutral bg-opacity-60 p-2 rounded text-white  max-w-lg mx-auto">
+                  Nunca te pierdas una oferta de libros
+                </h1>
+                <p className="mx-auto max-w-[700px] text-white md:text-xl">
+                  Book Hunter escanea cientos de tiendas en línea para encontrar las mejores ofertas de libros y te notifica al instante.
+                </p>
+              </div>
+              <div className="w-full max-w-sm space-y-2">
+                <form className="flex space-x-2 justify-center">
+                  <Link href="/sign-up" className="bg-secondary p-2 text-white">Comenzar ahora</Link>
+                </form>
+                <p className="text-xs text-white">
+                  Prueba gratis por 14 días. No se requiere tarjeta de crédito.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-white">
+          <div className="container px-4 md:px-6">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">Características principales</h2>
+            <div className="grid gap-6 lg:grid-cols-3 lg:gap-12">
+              <Card>
+                <CardContent className="flex flex-col items-center space-y-4 p-6">
+                  <Search className="h-12 w-12 text-primary" />
+                  <h3 className="text-xl font-bold">Búsqueda inteligente</h3>
+                  <p className="text-gray-600 text-center">
+                    Nuestro algoritmo busca en cientos de tiendas para encontrar las mejores ofertas.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="flex flex-col items-center space-y-4 p-6">
+                  <Bell className="h-12 w-12 text-primary" />
+                  <h3 className="text-xl font-bold">Alertas personalizadas</h3>
+                  <p className="text-gray-600 text-center">
+                    Recibe notificaciones instantáneas cuando los libros que te interesan estén en oferta.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="flex flex-col items-center space-y-4 p-6">
+                  <DollarSign className="h-12 w-12 text-primary" />
+                  <h3 className="text-xl font-bold">Ahorro garantizado</h3>
+                  <p className="text-gray-600 text-center">
+                    Ahorra hasta un 70% en tus compras de libros con nuestras ofertas exclusivas.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+        <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100">
+          <div className="container px-4 md:px-6">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">Lo que dicen nuestros usuarios</h2>
+            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
+              <Card>
+                <CardContent className="p-6">
+                  <p className="text-gray-600 mb-4">
+                  &quot;Gracias a Book Hunter, he ahorrado cientos de euros en mis compras de libros. ¡Es una herramienta imprescindible para cualquier lector!&quot;
+                  </p>
+                  <p className="font-semibold">María G., ávida lectora</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-6">
+                  <p className="text-gray-600 mb-4">
+                  &quot;Como estudiante, Book Hunter me ha ayudado a encontrar los mejores precios para mis libros de texto. ¡Altamente recomendado!&quot;
+                  </p>
+                  <p className="font-semibold">Carlos R., estudiante universitario</p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+        <section id="pricing" className="w-full py-12 md:py-24 lg:py-32">
+          <div className="container px-4 md:px-6">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">Planes y precios</h2>
+            <div className="grid gap-6 lg:grid-cols-3 lg:gap-12">
+              <Card className="flex flex-col">
+                <CardContent className="flex flex-col flex-grow p-6">
+                  <div className="flex-grow">
+                    <h3 className="text-2xl font-bold mb-4">Plan Básico</h3>
+                    <p className="text-3xl font-bold mb-6">4.99€/mes</p>
+                    <ul className="space-y-2 mb-6">
+                      <li className="flex items-center">
+                        <Check className="h-5 w-5 text-primary mr-2" />
+                        Hasta 5 alertas de libros
+                      </li>
+                      <li className="flex items-center">
+                        <Check className="h-5 w-5 text-primary mr-2" />
+                        Notificaciones por email
+                      </li>
+                      <li className="flex items-center">
+                        <Check className="h-5 w-5 text-primary mr-2" />
+                        Actualizaciones diarias
+                      </li>
+                    </ul>
+                  </div>
+                  <Button className="w-full mt-auto">Elegir plan</Button>
+                </CardContent>
+              </Card>
+              <Card className="flex flex-col">
+                <CardContent className="flex flex-col flex-grow p-6">
+                  <div className="flex-grow">
+                    <h3 className="text-2xl font-bold mb-4">Plan Premium</h3>
+                    <p className="text-3xl font-bold mb-6">9.99€/mes</p>
+                    <ul className="space-y-2 mb-6">
+                      <li className="flex items-center">
+                        <Check className="h-5 w-5 text-primary mr-2" />
+                        Alertas ilimitadas
+                      </li>
+                      <li className="flex items-center">
+                        <Check className="h-5 w-5 text-primary mr-2" />
+                        Notificaciones por email y SMS
+                      </li>
+                      <li className="flex items-center">
+                        <Check className="h-5 w-5 text-primary mr-2" />
+                        Actualizaciones en tiempo real
+                      </li>
+                      <li className="flex items-center">
+                        <Check className="h-5 w-5 text-primary mr-2" />
+                        Acceso prioritario a ofertas exclusivas
+                      </li>
+                    </ul>
+                  </div>
+                  <Button className="w-full mt-auto">Elegir plan</Button>
+                </CardContent>
+              </Card>
+              <Card className="flex flex-col">
+                <CardContent className="flex flex-col flex-grow p-6">
+                  <div className="flex-grow">
+                    <h3 className="text-2xl font-bold mb-4">Plan Empresa</h3>
+                    <p className="text-3xl font-bold mb-6">Custom</p>
+                    <ul className="space-y-2 mb-6">
+                      <li className="flex items-center">
+                        <Check className="h-5 w-5 text-primary mr-2" />
+                        Alertas ilimitadas
+                      </li>
+                      <li className="flex items-center">
+                        <Check className="h-5 w-5 text-primary mr-2" />
+                        Notificaciones por email y SMS
+                      </li>
+                      <li className="flex items-center">
+                        <Check className="h-5 w-5 text-primary mr-2" />
+                        Actualizaciones en tiempo real
+                      </li>
+                      <li className="flex items-center">
+                        <Check className="h-5 w-5 text-primary mr-2" />
+                        Acceso prioritario a ofertas exclusivas
+                      </li>
+                      <li className="flex items-center">
+                        <Check className="h-5 w-5 text-primary mr-2" />
+                        Soporte dedicado
+                      </li>
+                    </ul>
+                  </div>
+                  <Button className="w-full mt-auto">Elegir plan</Button>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </div>
+  )
 }
