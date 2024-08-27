@@ -34,7 +34,7 @@ export default function Navbar() {
 					isLoaded ? (
 						userId ? (
 							<>
-								<Link className="bg-secondary p-2 text-white text-sm" href="/dashboard">
+								<Link className="bg-secondary p-2 text-white text-sm" href="/dashboard" prefetch={false}>
 									Dashboard
 								</Link>
 								<UserButton />

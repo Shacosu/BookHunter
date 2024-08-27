@@ -24,7 +24,7 @@ export default function RenderBooks({ book }: { book: any }) {
 		<>
 			<Card key={book.id} className="relative">
 				<CardContent className="p-4">
-					<div className="w-full h-44  mb-4 rounded relative">
+					<div className="w-full h-44 mb-4 rounded relative">
 						<Image
 							src={image}
 							alt={title}
@@ -32,8 +32,7 @@ export default function RenderBooks({ book }: { book: any }) {
 							className="object-contain"
 						/>
 					</div>
-					<h2 className="font-semibold text-lg mb-1 h-14 line-clamp-2" title={title}>{title}</h2>
-					{/* <p className="text-sm text-gray-600 mb-2">{author}</p> */}
+					<h2 className="font-semibold  mb-1 h-14 line-clamp-2" title={title}>{title}</h2>
 					<div className="flex justify-between mb-2">
 						<div>
 							<label className="text-xs">Minimo</label>

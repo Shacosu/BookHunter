@@ -1,11 +1,10 @@
-'use client'
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Bell, BookMarked, Percent, TrendingUp } from "lucide-react"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+// import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import Image from "next/image"
+import { getBooksStats } from "@/utils/services"
 
 const savingsData = [
 	{ name: 'Ene', amount: 20 },
@@ -38,7 +37,8 @@ const recentAlerts = [
 	{ id: 4, book: "Neuromante", author: "William Gibson", price: "10.99€", date: "2023-07-12" },
 ]
 
-export default function Dashboard() {
+export default async function Dashboard() {
+	const { dailyOffers, totalBooks,totalMonthBooks, weeklyOffers } = await getBooksStats()
 	return (
 		<div className="overflow-auto h-screen p-4">
 			<h1 className="text-3xl font-bold mb-6">Dashboard</h1>
@@ -47,7 +47,7 @@ export default function Dashboard() {
 			<div className="grid gap-4 grid-cols-2 md:grid-cols-2 lg:grid-cols-4 mb-8">
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-sm font-medium">Alertas Activas</CardTitle>
+						<CardTitle className="text-sm font-medium">Ofertas Importantes</CardTitle>
 						<Bell className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
@@ -61,8 +61,8 @@ export default function Dashboard() {
 						<BookMarked className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">253</div>
-						<p className="text-xs text-muted-foreground">+23 este mes</p>
+						<div className="text-2xl font-bold">{totalBooks}</div>
+						<p className="text-xs text-muted-foreground">+{totalMonthBooks} este mes</p>
 					</CardContent>
 				</Card>
 				<Card>
@@ -71,7 +71,7 @@ export default function Dashboard() {
 						<Percent className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">32</div>
+						<div className="text-2xl font-bold">{dailyOffers}</div>
 						<p className="text-xs text-muted-foreground">En las últimas 24 horas</p>
 					</CardContent>
 				</Card>
@@ -93,7 +93,7 @@ export default function Dashboard() {
 					<CardTitle>Tendencias de Ahorro</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<div className="h-[300px]">
+					{/* <div className="h-[300px]">
 						<ResponsiveContainer width="100%" height="100%">
 							<LineChart data={savingsData}>
 								<CartesianGrid strokeDasharray="3 3" />
@@ -103,7 +103,7 @@ export default function Dashboard() {
 								<Line type="monotone" dataKey="amount" stroke="#8884d8" />
 							</LineChart>
 						</ResponsiveContainer>
-					</div>
+					</div> */}
 				</CardContent>
 			</Card>
 
@@ -115,9 +115,9 @@ export default function Dashboard() {
 						<CardContent className="flex items-center p-4 text-xs">
 							<picture className="w-20 h-28 object-cover mr-4 relative">
 								<Image src={deal.image} alt={deal.title}
-									layout="fill"
-									objectFit="cover"
-									objectPosition="center"
+									fill
+									className="object-cover"
+
 								/>
 							</picture>
 

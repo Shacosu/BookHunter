@@ -109,8 +109,12 @@ import prisma from "@/utils/db";
 // }
 
 
-export async function getAllBooks({ search, page = 1, limit = 0 }: { search: string, page?: number, limit?: number }) {
+export async function getAllBooks({ search, size = 12, page = 1 }: { search: string, size?: number, limit?: number, page?: number }) {
 	const books = await prisma.book.findMany({
+		cacheStrategy: {
+			ttl: 60,
+			swr: 60,
+		},
 		where: {
 			BookDetail: {
 				title: {
@@ -125,27 +129,26 @@ export async function getAllBooks({ search, page = 1, limit = 0 }: { search: str
 					PriceHistory: {
 						orderBy: {
 							createdAt: "desc"
-						},
-						take: 3
+						}
 					}
 				}
 			}
 		},
-		take: 12,
+		take: size,
 	});
 
-		const count = await prisma.book.count({
-			where: {
-				BookDetail: {
-					title: {
-						contains: search === "all" ? undefined : search,
-						mode: "insensitive"
-					}
+	const count = await prisma.book.count({
+		where: {
+			BookDetail: {
+				title: {
+					contains: search === "all" ? undefined : search,
+					mode: "insensitive"
 				}
 			}
-		});
+		}
+	});
 
-	const totalPages = Math.ceil(count / limit);
+	const totalPages = Math.ceil(count / size);
 	const nextPage = page < totalPages ? page + 1 : null;
 	const prevPage = page > 1 ? page - 1 : null;
 
@@ -155,4 +158,78 @@ export async function getAllBooks({ search, page = 1, limit = 0 }: { search: str
 		prevPage,
 		totalPages
 	};
+}
+
+
+export async function getBooksStats() {
+
+	const [totalBooks, totalMonthBooks, dailyOffers, weeklyOffers, booksWithPrice] = await prisma.$transaction([
+		prisma.book.count(),
+		prisma.book.count({
+			cacheStrategy: {
+				ttl: 60,
+				swr: 60,
+			},
+			where: {
+				BookDetail: {
+					createdAt: {
+						gte: new Date(new Date().setDate(1)),
+						lte: new Date()
+					}
+				}
+			}
+		}),
+		prisma.priceHistory.count({
+			cacheStrategy: {
+				ttl: 60,
+				swr: 60,
+			},
+			where: {
+				createdAt: {
+					gte: new Date(new Date().setHours(0o0, 0o0, 0o0)),
+					lte: new Date(new Date().setHours(23, 59, 59))
+				}
+			}
+		}),
+		prisma.priceHistory.count({
+			cacheStrategy: {
+				ttl: 60,
+				swr: 60,
+			},
+			where: {
+				createdAt: {
+					gte: new Date(new Date().setDate(new Date().getDate() - 7)),
+					lte: new Date()
+				}
+			}
+		}),
+		prisma.book.findMany({
+			cacheStrategy: {
+				ttl: 60,
+				swr: 60,
+			},
+			include: {
+				BookDetail: {
+					include: {
+						PriceHistory: {
+							orderBy: {
+								createdAt: "desc"
+							},
+						}
+					}
+				}
+			},
+			take: 24
+		})
+	]);
+
+
+	return {
+		totalBooks,
+		dailyOffers,
+		weeklyOffers,
+		totalMonthBooks
+	};
+
+
 }

@@ -4,7 +4,7 @@ export default function layout({ children }: Readonly<{ children: React.ReactNod
 	return (
 		<div className="flex md:gap-2">
 			<DashboardSidebar />
-			<main className="flex-1 max-w-full">
+			<main className="flex-1 max-w-full h-min">
 				{children}
 			</main>
 		</div>

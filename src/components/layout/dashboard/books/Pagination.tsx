@@ -33,7 +33,7 @@ export function PaginationComponent() {
 
 
   return (
-    <Pagination>
+    <Pagination className="mt-4">
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious onClick={() => handleChange(defaultValue - 1)}/>
