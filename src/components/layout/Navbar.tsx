@@ -13,9 +13,28 @@ export default function Navbar() {
 
 	return (
 		<header className="px-4 lg:px-6 h-16 flex items-center sticky top-0 bg-base text-white shadow-lg z-50">
-			<Link className="flex items-center justify-center" href="/">
-				<Image width={180} height={30} src="/images/logo-white.webp" alt="Book Hunter" />
-			</Link>
+			{
+				pathname === "/" ? (
+					<Link href="/" prefetch={false}>
+						<Image
+							src="/images/logo-white.webp"
+							alt="Book Hunter Logo"
+							width={180}
+							height={32}
+						/>
+					</Link>
+				) : (
+					<Link href="/dashboard" prefetch={false}>
+						<Image
+							src="/images/logo-white.webp"
+							alt="Book Hunter Logo"
+							width={180}
+							height={32}
+						/>
+					</Link>
+				)
+			}
+
 			<nav className="ml-auto md:flex items-center gap-4 sm:gap-6 hidden">
 				{pathname === "/" && (
 					<>
@@ -34,10 +53,6 @@ export default function Navbar() {
 					isLoaded ? (
 						userId ? (
 							<>
-								<Link className="bg-secondary p-2 text-white text-sm" href="/dashboard" prefetch={false}>
-									Dashboard
-								</Link>
-								<UserButton />
 								<div className="relative">
 									<Bell className="h-6 w-6 " />
 									<Badge className="absolute -top-2 -right-3 p-1 py-0 tabular-nums" variant="secondary">
@@ -45,6 +60,10 @@ export default function Navbar() {
 									</Badge>
 
 								</div>
+								{!pathname.includes("dashboard") && <Link className="bg-secondary p-2 text-white text-sm" href="/dashboard" prefetch={false}>
+									Dashboard
+								</Link>}
+								<UserButton />
 							</>
 						) : (
 							<Link className="text-sm font-medium hover:underline underline-offset-4" href="/sign-in">

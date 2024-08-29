@@ -11,59 +11,43 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation"
 import { useDebouncedCallback } from "use-debounce"
 
 
-export default function Filters() {
-  const [searchTerm, setSearchTerm] = useState('')
-  const [genreFilter, setGenreFilter] = useState('')
+export default function Filters({ totalBooks }: { totalBooks: number }) {
   const [priceRange, setPriceRange] = useState([0, 100000])
-  const [inStockOnly, setInStockOnly] = useState(false)
-	const searchParams = useSearchParams();
+  const [inStockOnly, setInStockOnly] = useState(true)
+  const searchParams = useSearchParams();
   const defaultValue = searchParams.get("search")?.toString() || "";
-	const pathname = usePathname();
-	const { replace } = useRouter();
-	const handleChange = useDebouncedCallback((searchQuery: string) => {
-		const params = new URLSearchParams(searchParams);
-		if (searchQuery) {
-			params.set("search", searchQuery);
-		} else {
-			params.delete("search");
-		}
-		replace(`${pathname}?${encodeURI(params.toString())}`)
-	}, 300)
-
-  const changeSize = (value: string) => {
+  const { replace } = useRouter();
+  const handleChange = useDebouncedCallback((searchQuery: string) => {
     const params = new URLSearchParams(searchParams);
-    if (value) {
-      params.set("size", value);
+    if (searchQuery) {
+      params.set("search", searchQuery);
     } else {
-      params.delete("size");
+      params.delete("search");
     }
-    replace(`${pathname}?${encodeURI(params.toString())}`)
-  }
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    replace(newUrl);
+  }, 300)
 
-  const changeMinPrice = (value: number) => {
-    const params = new URLSearchParams(searchParams);
-    if (value || value !== 0) {
-      params.set("minPrice", value.toString());
-    } else {
-      params.delete("minPrice");
-    }
-    replace(`${pathname}?${encodeURI(params.toString())}`)
-  }
+  const changeFilter = (value: string | boolean | null, key: string) => {
+    const params = new URLSearchParams(window.location.search);
 
-  const changeStock = (value: boolean) => {
-    const params = new URLSearchParams(searchParams);
-    if (value) {
-      params.set("stock", value.toString());
+    if (key === "stock") setInStockOnly(!inStockOnly);
+    if (key === "size") params.delete("page");
+    if (value || value === false) {
+
+      params.set(key, value.toString());
     } else {
-      params.delete("stock");
+
+      params.delete(key);
     }
-    replace(`${pathname}?${encodeURI(params.toString())}`)
-  }
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    replace(newUrl);
+  };
 
 
   return (
     <div>
-      {/* <h1 className="text-3xl font-bold mb-6">Catálogo de Libros</h1> */}
+      <h1 className="text-3xl font-bold mb-6">Catálogo de Libros</h1>
       <div className="mb-4 space-y-4">
         <Input
           type="text"
@@ -73,7 +57,9 @@ export default function Filters() {
           defaultValue={defaultValue}
         />
         <div className="flex flex-wrap gap-4">
-          <Select>
+          <Select onValueChange={value => changeFilter(value, "genre")} defaultValue={
+            decodeURIComponent(searchParams.get("genre")?.toString() || "")
+          }>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Género" />
             </SelectTrigger>
@@ -85,15 +71,17 @@ export default function Filters() {
               <SelectItem value="Romance">Romance</SelectItem>
             </SelectContent>
           </Select>
-          <Select>
-            <SelectTrigger className="w-[180px]">
+          <Select onValueChange={value => changeFilter(value, "filterBy")} defaultValue={
+            searchParams.get("filterBy")?.toString()
+          }>
+            <SelectTrigger className="w-[220px]">
               <SelectValue placeholder="Ordenar por" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="price-asc">Precio: Menor a Mayor</SelectItem>
-              <SelectItem value="price-desc">Precio: Mayor a Menor</SelectItem>
-              <SelectItem value="date-asc">Fecha: Antiguo a Reciente</SelectItem>
-              <SelectItem value="date-desc">Fecha: Reciente a Antiguo</SelectItem>
+              <SelectItem value="priceAsc">Precio: Menor a Mayor</SelectItem>
+              <SelectItem value="priceDesc">Precio: Mayor a Menor</SelectItem>
+              <SelectItem value="dateAsc">Fecha: Antiguo a Reciente</SelectItem>
+              <SelectItem value="dateDesc">Fecha: Reciente a Antiguo</SelectItem>
             </SelectContent>
           </Select>
           <div className="flex items-center space-x-2">
@@ -104,24 +92,23 @@ export default function Filters() {
               max={100000}
               step={0.1}
               value={
-                searchParams.get("minPrice")?.toString()  ? [parseInt(searchParams.get("minPrice")?.toString() || "0"), 100000] : priceRange
+                searchParams.get("minPrice")?.toString() ? [parseInt(searchParams.get("minPrice")?.toString() || "0"), 100000] : priceRange
               }
-              onValueChange={(value) => changeMinPrice(value[0])}
+              onValueChange={(value) => changeFilter(value[0].toString(), "minPrice")}
               className="w-[200px] cursor-pointer"
             />
           </div>
           <div className="flex items-center space-x-2">
             <Switch
               id="stock-filter"
-              checked={
-                searchParams.get("stock")?.toString() === "true" || inStockOnly
-              }
-              onCheckedChange={value => changeStock(value)}
+              checked={inStockOnly}
+              onCheckedChange={(value) => changeFilter(value, "stock")}
             />
             <Label htmlFor="stock-filter">Solo en stock</Label>
           </div>
-          <div className="ml-auto">
-            <Select onValueChange={(value) => changeSize(value)} defaultValue={
+          <div className="ml-auto flex items-center gap-2">
+            <span className="text-muted-foreground text-xs">Mostrando {totalBooks} libros</span>
+            <Select onValueChange={(value) => changeFilter(value.toString(), "size")} defaultValue={
               searchParams.get("size")?.toString() || "12"
             }>
               <SelectTrigger className="w-[75px]">
@@ -132,6 +119,8 @@ export default function Filters() {
                 <SelectItem value="24">24</SelectItem>
                 <SelectItem value="36">36</SelectItem>
                 <SelectItem value="48">48</SelectItem>
+                <SelectItem value="60">60</SelectItem>
+                <SelectItem value="72">72</SelectItem>
               </SelectContent>
             </Select>
           </div>

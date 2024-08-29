@@ -12,7 +12,7 @@ export default function LandingPage() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
-                <h1 className="text-3xl  font-bold tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl/none bg-neutral bg-opacity-60 p-2 rounded text-white  max-w-lg mx-auto">
+                <h1 className="text-3xl  font-bold tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl/none bg-neutral bg-opacity-60 p-2 text-white  max-w-lg mx-auto">
                   Nunca te pierdas una oferta de libros
                 </h1>
                 <p className="mx-auto max-w-[700px] text-white md:text-xl">

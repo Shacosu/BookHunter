@@ -2,33 +2,23 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Bell, BookMarked, Percent, TrendingUp } from "lucide-react"
-// import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import Image from "next/image"
 import { getBooksStats } from "@/utils/services"
+import { formatCurrency, formatDate } from "@/utils/functions"
+import { Badge } from "@/components/ui/badge"
+import Link from "next/link"
 
-const savingsData = [
-	{ name: 'Ene', amount: 20 },
-	{ name: 'Feb', amount: 35 },
-	{ name: 'Mar', amount: 30 },
-	{ name: 'Abr', amount: 45 },
-	{ name: 'May', amount: 55 },
-	{ name: 'Jun', amount: 60 },
-	{ name: 'Jul', amount: 75 },
-]
+interface BookProps {
+	id: number
+	title: string
+	currentPrice: number
+	previousPrice: number
+	rawDiscount: number
+	discount: number
+	image: string
+	link: string
+}
 
-const featuredDeals = [
-	{ id: 1, title: "El nombre del viento", author: "Patrick Rothfuss", price: "15.99€", discount: "30%", image: "https://placehold.co/150x250" },
-	{ id: 2, title: "1984", author: "George Orwell", price: "9.99€", discount: "25%", image: "https://placehold.co/150x250" },
-	{ id: 3, title: "Cien años de soledad", author: "Gabriel García Márquez", price: "12.50€", discount: "20%", image: "https://placehold.co/150x250" },
-	{
-		id: 4,
-		title: "El Señor de los Anillos",
-		author: "J.R.R. Tolkien",
-		price: "19.99€",
-		discount: "15%",
-		image: "https://placehold.co/150x250",
-	}
-]
 
 const recentAlerts = [
 	{ id: 1, book: "Dune", author: "Frank Herbert", price: "11.99€", date: "2023-07-15" },
@@ -38,13 +28,13 @@ const recentAlerts = [
 ]
 
 export default async function Dashboard() {
-	const { dailyOffers, totalBooks,totalMonthBooks, weeklyOffers } = await getBooksStats()
+	const { dailyOffers, totalBooks, totalMonthBooks, bestOffers, recentBooksUpdated } = await getBooksStats()
 	return (
-		<div className="overflow-auto h-screen p-4">
+		<div className="overflow-auto space-y-4">
 			<h1 className="text-3xl font-bold mb-6">Dashboard</h1>
 
 			{/* Tarjetas de resumen */}
-			<div className="grid gap-4 grid-cols-2 md:grid-cols-2 lg:grid-cols-4 mb-8">
+			<div className="grid gap-4 grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">Ofertas Importantes</CardTitle>
@@ -87,49 +77,40 @@ export default async function Dashboard() {
 				</Card>
 			</div>
 
-			{/* Gráfico de tendencias de ahorro */}
-			<Card className="mb-8">
-				<CardHeader>
-					<CardTitle>Tendencias de Ahorro</CardTitle>
-				</CardHeader>
-				<CardContent>
-					{/* <div className="h-[300px]">
-						<ResponsiveContainer width="100%" height="100%">
-							<LineChart data={savingsData}>
-								<CartesianGrid strokeDasharray="3 3" />
-								<XAxis dataKey="name" />
-								<YAxis />
-								<Tooltip />
-								<Line type="monotone" dataKey="amount" stroke="#8884d8" />
-							</LineChart>
-						</ResponsiveContainer>
-					</div> */}
-				</CardContent>
-			</Card>
 
 			{/* Ofertas destacadas */}
 			<h2 className="text-2xl font-semibold mb-4">Ofertas Destacadas</h2>
 			<div className="grid gap-4 grid-cols-2 md:grid-cols-2 lg:grid-cols-4 mb-8">
-				{featuredDeals.map((deal) => (
-					<Card key={deal.id}>
-						<CardContent className="flex items-center p-4 text-xs">
-							<picture className="w-20 h-28 object-cover mr-4 relative">
-								<Image src={deal.image} alt={deal.title}
-									fill
-									className="object-cover"
+				{bestOffers.map((book) => {
+					if (book && book?.id && book?.title && book?.currentPrice && book?.previousPrice && book?.discount && book?.image && book?.link && book?.updatedAt)
+						return (
+							<Card key={book?.id}>
+								<CardContent className="flex items-center p-4 text-xs">
+									<picture className="w-20 h-28 object-cover mr-4 relative">
+										<Image src={book.image} alt={book.title}
+											fill
+											className="object-cover"
 
-								/>
-							</picture>
+										/>
+									</picture>
 
-							<div>
-								<h3 className="font-semibold line-clamp-2">{deal.title}</h3>
-								<p className="text-gray-600">{deal.author}</p>
-								<p className="text-sm font-bold">{deal.price}</p>
-								<p className="text-green-600">Dscto: {deal.discount}</p>
-							</div>
-						</CardContent>
-					</Card>
-				))}
+									<div>
+										<h3 className="font-semibold line-clamp-1">{book?.title}</h3>
+
+										<p className="text-xs text-muted-foreground">Actualizado: {formatDate(book?.updatedAt)}</p>
+
+										<p className="text-xs text-muted-foreground">Anterior: <span className="line-through">{formatCurrency(book?.previousPrice)}</span></p>
+
+										<p className="text-sm font-bold">Actual: {formatCurrency(book?.currentPrice)}</p>
+										<p className="text-green-600">Dscto: {book?.discount}%</p>
+										<Button size="xs" variant="outline">
+											Ir a la oferta
+										</Button>
+									</div>
+								</CardContent>
+							</Card>
+						)
+				})}
 			</div>
 
 			{/* Tabla de alertas recientes */}
@@ -139,22 +120,41 @@ export default async function Dashboard() {
 					<Table>
 						<TableHeader>
 							<TableRow>
+								<TableHead>#</TableHead>
 								<TableHead>Libro</TableHead>
-								<TableHead>Autor</TableHead>
-								<TableHead>Precio</TableHead>
-								<TableHead>Fecha</TableHead>
-								<TableHead>Acción</TableHead>
+								<TableHead className="text-end w-2/12">Precio Actual</TableHead>
+								<TableHead className="text-end w-2/12">Precio Anterior</TableHead>
+								<TableHead >Fecha de actualizacion</TableHead>
+								<TableHead >Acción</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
-							{recentAlerts.map((alert) => (
+							{recentBooksUpdated.map((alert) => (
 								<TableRow key={alert.id}>
-									<TableCell>{alert.book}</TableCell>
-									<TableCell>{alert.author}</TableCell>
-									<TableCell>{alert.price}</TableCell>
-									<TableCell>{alert.date}</TableCell>
 									<TableCell>
-										<Button variant="outline" size="sm">Ver oferta</Button>
+										{alert.BookDetail?.image && (
+											<div className="w-8 h-12 object-cover mr-4 relative">
+												<Image src={alert.BookDetail?.image} alt={alert.BookDetail?.title}
+													fill
+													className="object-cover"
+												/>
+											</div>
+										)}
+									</TableCell>
+									<TableCell className="truncate">{alert.BookDetail?.title}</TableCell>
+									<TableCell className="text-end">
+										<Badge variant="outline" className="bg-yellow-500">
+											{formatCurrency(alert.BookDetail?.PriceHistory[0].price || 0)}
+										</Badge>
+									</TableCell>
+									<TableCell className="text-end">
+										<Badge variant="outline" className="bg-gray-300">
+											{formatCurrency(alert.BookDetail?.PriceHistory[1].price || 0)}
+										</Badge>
+									</TableCell>
+									<TableCell>{formatDate(alert.BookDetail?.updatedAt || new Date())}</TableCell>
+									<TableCell>
+										<Link target="_blank" href={alert.BookDetail?.link || ""} title={alert.BookDetail?.title} className="btn text-xs p-1 px-2	">Ver oferta</Link>
 									</TableCell>
 								</TableRow>
 							))}
