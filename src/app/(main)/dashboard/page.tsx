@@ -85,26 +85,21 @@ export default async function Dashboard() {
 					if (book && book?.id && book?.title && book?.currentPrice && book?.previousPrice && book?.discount && book?.image && book?.link && book?.updatedAt)
 						return (
 							<Card key={book?.id}>
-								<CardContent className="flex items-center p-4 text-xs">
-									<picture className="w-20 h-28 object-cover mr-4 relative">
+								<CardContent className="flex flex-col md:flex-row items-center p-4 text-xs md:gap-1 gap-2">
+									<picture className="min-w-20 h-28 object-cover mr-4 relative">
 										<Image src={book.image} alt={book.title}
 											fill
 											className="object-cover"
-
 										/>
 									</picture>
-
 									<div>
 										<h3 className="font-semibold line-clamp-1">{book?.title}</h3>
-
 										<p className="text-xs text-muted-foreground">Actualizado: {formatDate(book?.updatedAt)}</p>
-
 										<p className="text-xs text-muted-foreground">Anterior: <span className="line-through">{formatCurrency(book?.previousPrice)}</span></p>
-
 										<p className="text-sm font-bold">Actual: {formatCurrency(book?.currentPrice)}</p>
 										<p className="text-green-600">Dscto: {book?.discount}%</p>
-										<Button size="xs" variant="outline">
-											Ir a la oferta
+										<Button size="xs" asChild>
+											<Link href={book?.link} target="_blank">Ver oferta</Link>
 										</Button>
 									</div>
 								</CardContent>
@@ -114,14 +109,14 @@ export default async function Dashboard() {
 			</div>
 
 			{/* Tabla de alertas recientes */}
-			<h2 className="text-2xl font-semibold mb-4">Alertas Recientes</h2>
+			<h2 className="text-2xl font-semibold mb-4">Ultimas Actualizaciones</h2>
 			<Card>
 				<CardContent>
 					<Table>
 						<TableHeader>
 							<TableRow>
 								<TableHead>#</TableHead>
-								<TableHead>Libro</TableHead>
+								<TableHead className="">Libro</TableHead>
 								<TableHead className="text-end w-2/12">Precio Actual</TableHead>
 								<TableHead className="text-end w-2/12">Precio Anterior</TableHead>
 								<TableHead >Fecha de actualizacion</TableHead>
@@ -141,7 +136,7 @@ export default async function Dashboard() {
 											</div>
 										)}
 									</TableCell>
-									<TableCell className="truncate">{alert.BookDetail?.title}</TableCell>
+									<TableCell className="truncate max-w-xs">{alert.BookDetail?.title}</TableCell>
 									<TableCell className="text-end">
 										<Badge variant="outline" className="bg-yellow-500">
 											{formatCurrency(alert.BookDetail?.PriceHistory[0].price || 0)}
@@ -154,7 +149,9 @@ export default async function Dashboard() {
 									</TableCell>
 									<TableCell>{formatDate(alert.BookDetail?.updatedAt || new Date())}</TableCell>
 									<TableCell>
-										<Link target="_blank" href={alert.BookDetail?.link || ""} title={alert.BookDetail?.title} className="btn text-xs p-1 px-2	">Ver oferta</Link>
+										<Button asChild size="xs" >
+											<Link href={alert.BookDetail?.link || ""} target="_blank">Ver libro</Link>
+										</Button>
 									</TableCell>
 								</TableRow>
 							))}

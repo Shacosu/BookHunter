@@ -32,7 +32,7 @@ export default function Filters({ totalBooks }: { totalBooks: number }) {
     const params = new URLSearchParams(window.location.search);
 
     if (key === "stock") setInStockOnly(!inStockOnly);
-    if (key === "size") params.delete("page");
+    if (key === "size" || key === "stock") params.delete("page");
     if (value || value === false) {
 
       params.set(key, value.toString());
@@ -84,7 +84,7 @@ export default function Filters({ totalBooks }: { totalBooks: number }) {
               <SelectItem value="dateDesc">Fecha: Reciente a Antiguo</SelectItem>
             </SelectContent>
           </Select>
-          <div className="flex items-center space-x-2">
+          {/* <div className="flex items-center space-x-2">
             <Label htmlFor="price-range">Precio: de {formatCurrency(Number(searchParams.get("minPrice")) || 0)} hasta {formatCurrency(priceRange[1])}</Label>
             <Slider
               id="price-range"
@@ -97,7 +97,7 @@ export default function Filters({ totalBooks }: { totalBooks: number }) {
               onValueChange={(value) => changeFilter(value[0].toString(), "minPrice")}
               className="w-[200px] cursor-pointer"
             />
-          </div>
+          </div> */}
           <div className="flex items-center space-x-2">
             <Switch
               id="stock-filter"

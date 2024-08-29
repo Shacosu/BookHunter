@@ -12,9 +12,9 @@ export async function getAllBooks({ search, size = 12, page = 1, stock }: { sear
 			BookDetail: {
 				title: {
 					contains: search === "all" ? undefined : search,
-					mode: "insensitive"
+					mode: "insensitive",
 				},
-				stock: stock ? 1 : 0
+				stock: stock ? 1 : undefined,
 			}
 		},
 		include: {
@@ -33,17 +33,22 @@ export async function getAllBooks({ search, size = 12, page = 1, stock }: { sear
 	});
 
 	const count = await prisma.book.count({
+		cacheStrategy: {
+			ttl: 300,
+			swr: 300,
+		},
 		where: {
 			BookDetail: {
 				title: {
 					contains: search === "all" ? undefined : search,
 					mode: "insensitive"
-				}
+				},
+				stock: stock ? 1 : undefined
 			}
-		}
+		},
 	});
 
-	const totalPages = Math.floor(count / size);
+	const totalPages = Math.ceil(count / size);
 	const nextPage = page < totalPages ? page + 1 : null;
 	const prevPage = page > 1 ? page - 1 : null;
 

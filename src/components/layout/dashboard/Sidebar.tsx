@@ -22,7 +22,7 @@ export default function DashboardSidebar() {
   ]
 
   const isLinkActive = (href: string) => {
-    return pathname === href ? "bg-gray-800" : ""
+    return pathname === href ? "bg-slate-900" : ""
   }
 
   return (
@@ -39,7 +39,7 @@ export default function DashboardSidebar() {
                   key={index}
                   href={item.href}
                   title={item.label}
-                  className={`flex flex-col text-xs items-center justify-center gap-3 px-3 py-2 transition-all text-white hover:bg-gray-800 ${isLinkActive(item.href)}`}
+                  className={`flex flex-col text-xs items-center justify-center gap-3 px-3 py-2 transition-all text-white hover:bg-slate-900 ${isLinkActive(item.href)}`}
                 >
                   <item.icon className="size-4 block" />
                   <p>{item.label}</p>
