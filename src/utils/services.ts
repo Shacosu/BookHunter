@@ -1,12 +1,26 @@
 "use server"
 import prisma from "@/utils/db";
 
+interface GetBooksProps {
+	search: string;
+	size?: number;
+	page?: number;
+	stock?: boolean;
+	filterBy?: string;
+}
 
-export async function getAllBooks({ search, size = 12, page = 1, stock }: { search: string, size?: number, limit?: number, page?: number, stock?: boolean }) {
+
+export async function getAllBooks({ search, size = 12, page = 1, stock, filterBy }: GetBooksProps) {
+	console.log(filterBy)
 	const books = await prisma.book.findMany({
 		cacheStrategy: {
 			ttl: 300,
 			swr: 300,
+		},
+		orderBy: {
+			BookDetail: {
+				updatedAt: filterBy === "dateDesc" ? "desc" : filterBy === "dateAsc" ? "asc" : undefined,
+			}
 		},
 		where: {
 			BookDetail: {

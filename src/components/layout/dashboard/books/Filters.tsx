@@ -12,7 +12,6 @@ import { useDebouncedCallback } from "use-debounce"
 
 
 export default function Filters({ totalBooks }: { totalBooks: number }) {
-  const [priceRange, setPriceRange] = useState([0, 100000])
   const [inStockOnly, setInStockOnly] = useState(true)
   const searchParams = useSearchParams();
   const defaultValue = searchParams.get("search")?.toString() || "";
@@ -21,6 +20,7 @@ export default function Filters({ totalBooks }: { totalBooks: number }) {
     const params = new URLSearchParams(searchParams);
     if (searchQuery) {
       params.set("search", searchQuery);
+      params.delete("page");
     } else {
       params.delete("search");
     }
@@ -84,20 +84,6 @@ export default function Filters({ totalBooks }: { totalBooks: number }) {
               <SelectItem value="dateDesc">Fecha: Reciente a Antiguo</SelectItem>
             </SelectContent>
           </Select>
-          {/* <div className="flex items-center space-x-2">
-            <Label htmlFor="price-range">Precio: de {formatCurrency(Number(searchParams.get("minPrice")) || 0)} hasta {formatCurrency(priceRange[1])}</Label>
-            <Slider
-              id="price-range"
-              min={0}
-              max={100000}
-              step={0.1}
-              value={
-                searchParams.get("minPrice")?.toString() ? [parseInt(searchParams.get("minPrice")?.toString() || "0"), 100000] : priceRange
-              }
-              onValueChange={(value) => changeFilter(value[0].toString(), "minPrice")}
-              className="w-[200px] cursor-pointer"
-            />
-          </div> */}
           <div className="flex items-center space-x-2">
             <Switch
               id="stock-filter"

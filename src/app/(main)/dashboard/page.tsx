@@ -19,14 +19,6 @@ interface BookProps {
 	link: string
 }
 
-
-const recentAlerts = [
-	{ id: 1, book: "Dune", author: "Frank Herbert", price: "11.99€", date: "2023-07-15" },
-	{ id: 2, book: "El Hobbit", author: "J.R.R. Tolkien", price: "8.99€", date: "2023-07-14" },
-	{ id: 3, book: "Orgullo y prejuicio", author: "Jane Austen", price: "7.50€", date: "2023-07-13" },
-	{ id: 4, book: "Neuromante", author: "William Gibson", price: "10.99€", date: "2023-07-12" },
-]
-
 export default async function Dashboard() {
 	const { dailyOffers, totalBooks, totalMonthBooks, bestOffers, recentBooksUpdated } = await getBooksStats()
 	return (
@@ -94,12 +86,12 @@ export default async function Dashboard() {
 									</picture>
 									<div>
 										<h3 className="font-semibold line-clamp-1">{book?.title}</h3>
-										<p className="text-xs text-muted-foreground">Actualizado: {formatDate(book?.updatedAt)}</p>
-										<p className="text-xs text-muted-foreground">Anterior: <span className="line-through">{formatCurrency(book?.previousPrice)}</span></p>
-										<p className="text-sm font-bold">Actual: {formatCurrency(book?.currentPrice)}</p>
+										<p className="text-xs text-muted-foreground">{formatDate(book?.updatedAt)}</p>
+										<p className="text-xs text-muted-foreground">Antes: <span className="line-through">{formatCurrency(book?.previousPrice)}</span></p>
+										<p className="text-sm font-bold">Ahora: {formatCurrency(book?.currentPrice)}</p>
 										<p className="text-green-600">Dscto: {book?.discount}%</p>
 										<Button size="xs" asChild>
-											<Link href={book?.link} target="_blank">Ver oferta</Link>
+											<Link href={book?.link} target="_blank" className="text-xs mt-1">Ver oferta</Link>
 										</Button>
 									</div>
 								</CardContent>
@@ -139,18 +131,18 @@ export default async function Dashboard() {
 									<TableCell className="truncate max-w-xs">{alert.BookDetail?.title}</TableCell>
 									<TableCell className="text-end">
 										<Badge variant="outline" className="bg-yellow-500">
-											{formatCurrency(alert.BookDetail?.PriceHistory[0].price || 0)}
+											{alert.BookDetail?.PriceHistory[0].price !== 0  ? formatCurrency(alert.BookDetail?.PriceHistory[0].price || 0) : "Sin Stock"}
 										</Badge>
 									</TableCell>
 									<TableCell className="text-end">
 										<Badge variant="outline" className="bg-gray-300">
-											{formatCurrency(alert.BookDetail?.PriceHistory[1].price || 0)}
+										{alert.BookDetail?.PriceHistory[1].price !== 0  ? formatCurrency(alert.BookDetail?.PriceHistory[1].price || 0) : "Sin Stock"}
 										</Badge>
 									</TableCell>
 									<TableCell>{formatDate(alert.BookDetail?.updatedAt || new Date())}</TableCell>
 									<TableCell>
 										<Button asChild size="xs" >
-											<Link href={alert.BookDetail?.link || ""} target="_blank">Ver libro</Link>
+											<Link href={alert.BookDetail?.link || ""} target="_blank" className="text-xs">Ver libro</Link>
 										</Button>
 									</TableCell>
 								</TableRow>

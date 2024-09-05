@@ -53,7 +53,7 @@ export default function RenderBooks({ book }: { book: any }) {
 						{stock
 							? <Badge variant="default">Disponible</Badge>
 							: <Badge variant="destructive">No Disponible</Badge>}
-						<Badge className="mb-2" variant="outline">{formatDate(createdAt)}</Badge>
+						<Badge className="mb-2" variant="outline">{formatDate(updatedAt)}</Badge>
 						{
 							discount === 0 ? (
 								<Badge className="mb-2" variant="outline">0% <Equal size={16} /></Badge>

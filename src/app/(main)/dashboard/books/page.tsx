@@ -8,7 +8,8 @@ export default async function Books({ searchParams }: { searchParams: { [key: st
 	const size = Number(searchParams.size) || 12;
 	const stock = searchParams.stock === "true" || !searchParams.stock;
 	const page = Number(searchParams.page) || 1;
-	const { books, nextPage, prevPage, totalPages } = await getAllBooks({ search, page, size, stock });
+	const filterBy = searchParams.filterBy?.toString() || "";
+	const { books, nextPage, prevPage, totalPages } = await getAllBooks({ search, page, size, stock, filterBy });
 
 
 	return (
