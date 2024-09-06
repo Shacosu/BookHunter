@@ -4,8 +4,8 @@ export function formatCurrency(number: number) {
 
 export function formatDate(date: Date) {
 	return new Intl.DateTimeFormat('es-CL', {
-		year: 'numeric',
 		month: 'long',
-		day: 'numeric'
+		day: 'numeric',
+		weekday: 'long'
 	}).format(new Date(date))
 }

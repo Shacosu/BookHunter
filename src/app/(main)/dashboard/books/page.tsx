@@ -2,6 +2,15 @@ import Filters from "@/components/layout/dashboard/books/Filters";
 import { getAllBooks } from "@/utils/services";
 import RenderBooks from "@/components/layout/dashboard/books/RenderBooks";
 import { PaginationComponent } from "@/components/layout/dashboard/books/Pagination";
+import {
+	Breadcrumb,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbList,
+	BreadcrumbPage,
+	BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import Link from "next/link";
 
 export default async function Books({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
 	const search = searchParams.search?.toString() || "";
@@ -14,6 +23,19 @@ export default async function Books({ searchParams }: { searchParams: { [key: st
 
 	return (
 		<div className="flex flex-col min-h-screen">
+			<Breadcrumb className="mb-4 border rounded-full w-max px-4 py-1">
+				<BreadcrumbList>
+					<BreadcrumbItem>
+						<BreadcrumbLink asChild>
+							<Link href="/dashboard">Dashboard</Link>
+						</BreadcrumbLink>
+					</BreadcrumbItem>
+					<BreadcrumbSeparator />
+					<BreadcrumbItem>
+						<BreadcrumbPage className="font-medium">Libros</BreadcrumbPage>
+					</BreadcrumbItem>
+				</BreadcrumbList>
+			</Breadcrumb>
 			<Filters totalBooks={books.length} />
 			{!books.length ? (
 				<div className="flex-grow flex flex-col items-center justify-center">

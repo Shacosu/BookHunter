@@ -47,7 +47,6 @@ export default function Filters({ totalBooks }: { totalBooks: number }) {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6">Catálogo de Libros</h1>
       <div className="mb-4 space-y-4">
         <Input
           type="text"

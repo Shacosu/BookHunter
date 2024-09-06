@@ -21,9 +21,9 @@ export default function RootLayout({
     <html lang="es">
       <body className={`${inter.className}`}>
         <ClerkProvider localization={esES}>
-          <div className="flex flex-col min-h-screen justify-between">
+          <div className="flex flex-col min-h-[calc(100vh-128px)] justify-between">
             <Navbar />
-            <main className="min-h-[calc(100vh-121px)]">
+            <main className="">
               {children}
             </main>
           </div>

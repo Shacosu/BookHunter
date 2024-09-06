@@ -16,9 +16,9 @@ export default function DashboardSidebar() {
   const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard' },
     { icon: BookOpen, label: 'Mis Libros', href: '/dashboard/books' },
-    // { icon: List, label: 'Mis Listas', href: '/dashboard/lists' },
-    // { icon: Wallet, label: 'Facturas', href: '/dashboard/invoices' },
-    // { icon: Settings, label: 'Configuración', href: '/dashboard/settings' },
+    { icon: List, label: 'Mis Listas', href: '/dashboard/lists' },
+    { icon: Wallet, label: 'Facturas', href: '/dashboard/invoices' },
+    { icon: Settings, label: 'Configuración', href: '/dashboard/settings' },
   ]
 
   const isLinkActive = (href: string) => {

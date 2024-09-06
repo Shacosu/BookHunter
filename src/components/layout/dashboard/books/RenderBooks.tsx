@@ -2,8 +2,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatCurrency, formatDate } from "@/utils/functions";
-import { Book, BookDetail, PriceHistory } from "@prisma/client";
-import { ArrowBigRightDash, Equal, EqualSquare, TrendingDown, TrendingUp } from "lucide-react";
+import { PriceHistory } from "@prisma/client";
+import { Equal, TrendingDown, TrendingUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -18,13 +18,14 @@ export default function RenderBooks({ book }: { book: any }) {
 	const goodToBuy = discount < -15
 	const withoutCero = PriceHistory.filter((price: PriceHistory) => price.price !== 0)
 	const minPrice = Math.min(...withoutCero.map((price: PriceHistory) => price.price))
+	const bestPrice = currentPrice <= minPrice
 
 
 	return (
 		<>
 			<Card key={book.id} className="relative">
 				<CardContent className="p-4">
-					<div className="w-full h-44 mb-4 rounded relative">
+					<div className="w-full h-32 mb-4 rounded relative">
 						<Image
 							src={image}
 							alt={title}
@@ -32,44 +33,46 @@ export default function RenderBooks({ book }: { book: any }) {
 							className="object-contain"
 						/>
 					</div>
-					<h2 className="font-semibold  mb-1 h-14 line-clamp-2" title={title}>{title}</h2>
-					<div className="flex justify-between mb-2">
+					<h2 className="font-semibold  mb-1 h-10 text-sm line-clamp-2" title={title}>{title}</h2>
+					<div className="flex justify-between mb-2 font-medium">
 						<div>
 							<label className="text-xs">Minimo</label>
-							<p className="text-sm font-medium">{formatCurrency(minPrice)}</p>
+							<p className="text-sm font-bold">{formatCurrency(minPrice)}</p>
 						</div>
 						<div>
 							<label className="text-xs">Anterior</label>
-							<p className="text-sm font-medium">{formatCurrency(lastPrice)}</p>
+							<p className="text-sm font-bold">{formatCurrency(lastPrice)}</p>
 						</div>
 						<div>
 							<label className="text-xs">Actual</label>
-							<p className="text-sm font-medium">{formatCurrency(currentPrice)}</p>
+							<p className="text-sm font-bold">{formatCurrency(currentPrice)}</p>
 						</div>
 					</div>
 
-					{goodToBuy ? <Badge className="absolute top-4 right-4" variant="success">Buena Oferta!</Badge> : null}
-					<div className="text-xs space-x-2">
+					{goodToBuy && !bestPrice ? <Badge className="absolute top-9 right-2" variant="success">Buena Oferta!</Badge> : null}
+					{bestPrice ? <Badge className="absolute top-9 right-2" variant="success">Mejor Precio! 🔥</Badge> : null}
+					<div className="text-xs flex items-center gap-2">
 						{stock
-							? <Badge variant="default">Disponible</Badge>
+							? <Badge className="absolute top-2 right-2" variant="default">Disponible</Badge>
 							: <Badge variant="destructive">No Disponible</Badge>}
-						<Badge className="mb-2" variant="outline">{formatDate(updatedAt)}</Badge>
+
 						{
 							discount === 0 ? (
-								<Badge className="mb-2" variant="outline">0% <Equal size={16} /></Badge>
+								<Badge variant="outline"><Equal size={16} className="mr-1" /> 0%</Badge>
 							) : discount < 1 ? (
-								<Badge className="mb-2" variant="success">{Math.abs(discount)}% <TrendingUp size={16} /></Badge>
+								<Badge variant="success"><TrendingUp size={16} className="mr-1" /> {Math.abs(discount)}%</Badge>
 							) : (
-								<Badge className="mb-2" variant="destructive">{discount}% <TrendingDown size={16} /></Badge>
+								<Badge variant="destructive"><TrendingDown size={16} className="mr-1" />{discount}%</Badge>
 							)
 						}
+						<Badge variant="outline" className="capitalize">{formatDate(updatedAt)}</Badge>
 					</div>
 
 					<div className="flex gap-1 items-center">
 						<Link href={link} className="mt-4 px-4" target="_blank" >
 							<Image src="/images/bl.png" alt="bl" width={30} height={30} />
 						</Link>
-						<Button className="w-full mt-4">Ver mas detalles</Button>
+						<Button size="sm" className="w-full mt-4">Ver mas detalles</Button>
 					</div>
 				</CardContent>
 			</Card>

@@ -9,6 +9,7 @@ export default function layout({ children }: Readonly<{ children: React.ReactNod
 					{children}
 				</div>
 			</div>
+
 		</div>
 	)
 }

@@ -12,19 +12,23 @@ export default function LandingPage() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
-                <h1 className="text-3xl  font-bold tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl/none bg-neutral bg-opacity-60 p-2 text-white  max-w-lg mx-auto">
-                  Nunca te pierdas una oferta de libros
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl/none bg-neutral bg-opacity-60 p-2 text-white  max-w-xl mx-auto">
+                  Nunca te pierdas ninguna oferta de libros.
                 </h1>
                 <p className="mx-auto max-w-[700px] text-white md:text-xl">
-                  Book Hunter escanea cientos de tiendas en línea para encontrar las mejores ofertas de libros y te notifica al instante.
+                  Book Hunter escanea en línea para encontrar la opción que buscas y obtener las mejores ofertas de libros, y te notifica al instante.
                 </p>
               </div>
               <div className="w-full max-w-sm space-y-2">
-                <form className="flex space-x-2 justify-center">
-                  <Link href="/sign-up" className="bg-secondary p-2 text-white">Comenzar ahora</Link>
-                </form>
+                <div className="flex space-x-2 justify-center">
+                  <Button asChild>
+                    <Link href="/sign-up">
+                    ¡Comenzar ahora!
+                    </Link>
+                  </Button>
+                </div>
                 <p className="text-xs text-white">
-                  Prueba gratis por 14 días. No se requiere tarjeta de crédito.
+                  Prueba gratis por 7 días. No se requiere tarjeta de crédito.
                 </p>
               </div>
             </div>
@@ -71,7 +75,7 @@ export default function LandingPage() {
               <Card>
                 <CardContent className="p-6">
                   <p className="text-gray-600 mb-4">
-                  &quot;Gracias a Book Hunter, he ahorrado cientos de euros en mis compras de libros. ¡Es una herramienta imprescindible para cualquier lector!&quot;
+                    &quot;Gracias a Book Hunter, he ahorrado cientos de euros en mis compras de libros. ¡Es una herramienta imprescindible para cualquier lector!&quot;
                   </p>
                   <p className="font-semibold">María G., ávida lectora</p>
                 </CardContent>
@@ -79,7 +83,7 @@ export default function LandingPage() {
               <Card>
                 <CardContent className="p-6">
                   <p className="text-gray-600 mb-4">
-                  &quot;Como estudiante, Book Hunter me ha ayudado a encontrar los mejores precios para mis libros de texto. ¡Altamente recomendado!&quot;
+                    &quot;Como estudiante, Book Hunter me ha ayudado a encontrar los mejores precios para mis libros de texto. ¡Altamente recomendado!&quot;
                   </p>
                   <p className="font-semibold">Carlos R., estudiante universitario</p>
                 </CardContent>

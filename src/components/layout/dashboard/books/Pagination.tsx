@@ -40,7 +40,7 @@ export function PaginationComponent({ nextPage, prevPage, totalPages }: { nextPa
             const page = index + 1;
             return (
               <div key={index} onClick={() => handleChange(page)}
-                className={`text-sm font-medium leading-none cursor-pointer text-gray-600 p-2 ${defaultValue === page && "bg-base font-medium text-white"}`}>
+                className={`text-sm font-light leading-none cursor-pointer text-gray-600 p-2 px-4 ${defaultValue === page && "bg-base font-bold text-white"}`}>
                 {page}
               </div>
             )

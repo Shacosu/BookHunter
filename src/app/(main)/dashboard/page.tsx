@@ -7,6 +7,14 @@ import { getBooksStats } from "@/utils/services"
 import { formatCurrency, formatDate } from "@/utils/functions"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
 
 interface BookProps {
 	id: number
@@ -23,7 +31,16 @@ export default async function Dashboard() {
 	const { dailyOffers, totalBooks, totalMonthBooks, bestOffers, recentBooksUpdated } = await getBooksStats()
 	return (
 		<div className="overflow-auto space-y-4">
-			<h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+			{/* Breadcrumb */}
+			<Breadcrumb className="mb-4 border rounded-full w-max px-4 py-1">
+				<BreadcrumbList>
+					<BreadcrumbItem>
+						<BreadcrumbPage className="font-medium">
+							Dashboard
+						</BreadcrumbPage>
+					</BreadcrumbItem>
+				</BreadcrumbList>
+			</Breadcrumb>
 
 			{/* Tarjetas de resumen */}
 			<div className="grid gap-4 grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
@@ -86,7 +103,7 @@ export default async function Dashboard() {
 									</picture>
 									<div>
 										<h3 className="font-semibold line-clamp-1">{book?.title}</h3>
-										<p className="text-xs text-muted-foreground">{formatDate(book?.updatedAt)}</p>
+										<p className="text-xs text-muted-foreground capitalize">{formatDate(book?.updatedAt)}</p>
 										<p className="text-xs text-muted-foreground">Antes: <span className="line-through">{formatCurrency(book?.previousPrice)}</span></p>
 										<p className="text-sm font-bold">Ahora: {formatCurrency(book?.currentPrice)}</p>
 										<p className="text-green-600">Dscto: {book?.discount}%</p>
@@ -139,7 +156,7 @@ export default async function Dashboard() {
 										{alert.BookDetail?.PriceHistory[1].price !== 0  ? formatCurrency(alert.BookDetail?.PriceHistory[1].price || 0) : "Sin Stock"}
 										</Badge>
 									</TableCell>
-									<TableCell>{formatDate(alert.BookDetail?.updatedAt || new Date())}</TableCell>
+									<TableCell className="capitalize">{formatDate(alert.BookDetail?.updatedAt || new Date())}</TableCell>
 									<TableCell>
 										<Button asChild size="xs" >
 											<Link href={alert.BookDetail?.link || ""} target="_blank" className="text-xs">Ver libro</Link>
